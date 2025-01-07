@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data KTP</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="index.css" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Data KTP</h1>
+
+      <div class="d-flex justify-content-between mb-4">
+        <button class="btn btn-success" id="btnOpenModal">
+          <i class="fas fa-plus-circle"></i> Tambah Data Kependudukan
+        </button>
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control w-50"
+          placeholder="Cari berdasarkan Nama atau NIK..."
+        />
+      </div>
+
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>NIK</th>
+            <th>Nama</th>
+            <th>Tanggal Lahir</th>
+            <th>Alamat</th>
+            <th>Photo</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="dataBody">
+          <tr>
+            <td>1234567890123456</td>
+            <td>John Doe</td>
+            <td>1990-01-01</td>
+            <td>123 Main Street</td>
+            <td>
+              <img
+                src="path_to_photo.jpg"
+                alt="Photo"
+                class="img-thumbnail"
+                width="50"
+              />
+            </td>
+            <td>
+              <button class="btn btn-warning btn-sm">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-danger btn-sm">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="modal fade"
+      id="dataModal"
+      tabindex="-1"
+      aria-labelledby="dataModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Create Data</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="dataForm" enctype="multipart/form-data">
+              <div id="nikField">
+                <label for="nik">NIK:</label>
+                <input
+                  type="text"
+                  id="nik"
+                  name="nik"
+                  required
+                  class="form-control"
+                  maxlength="16"
+                />
+              </div>
+              <div id="nikDisplay" style="display: none">
+                <label for="nik">NIK:</label>
+                <span id="nikDisplayText" class="form-control-plaintext"></span>
+              </div>
+              <div class="mb-3">
+                <label for="nama" class="form-label">Nama:</label>
+                <input
+                  type="text"
+                  id="nama"
+                  name="nama"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="tglLahir" class="form-label">Tanggal Lahir:</label>
+                <input
+                  type="date"
+                  id="tglLahir"
+                  name="tglLahir"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="alamat" class="form-label">Alamat:</label>
+                <input
+                  type="text"
+                  id="alamat"
+                  name="alamat"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="photo" class="form-label">Photo:</label>
+                <input
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  class="form-control"
+                />
+                <img
+                  id="photoPreview"
+                  src=""
+                  alt="Photo Preview"
+                  class="img-fluid"
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-save"></i> Save
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="photoModal"
+      tabindex="-1"
+      aria-labelledby="photoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="photoModalLabel">Photo Penduduk</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img
+              id="fullSizePhoto"
+              src=""
+              alt="Full Size Photo"
+              class="img-fluid"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
